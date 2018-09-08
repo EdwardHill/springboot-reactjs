@@ -8,7 +8,7 @@ import org.springframework.session.web.http.HeaderHttpSessionStrategy;
 import org.springframework.session.web.http.SessionRepositoryFilter;
 
 @Configuration
-@Profile("!redis")
+@Profile("!production")
 public class EmbeddedSessionConfig {
 
   @Bean

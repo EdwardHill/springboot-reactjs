@@ -8,7 +8,7 @@ import org.springframework.session.web.http.HeaderHttpSessionStrategy;
 
 @EnableRedisHttpSession
 @Configuration
-@Profile("redis")
+@Profile("production")
 public class ExternalRedisConfig {
   @Bean
   public HeaderHttpSessionStrategy sessionStrategy() {

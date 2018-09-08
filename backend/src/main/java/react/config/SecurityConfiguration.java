@@ -12,10 +12,14 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.savedrequest.NullRequestCache;
 
+import javax.sql.DataSource;
+
 @Configuration
 @Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
 @EnableGlobalMethodSecurity(securedEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+  @Autowired
+  DataSource dataSource;
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
@@ -38,6 +42,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
   public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
     auth
       .inMemoryAuthentication()
-      .withUser("user").password("password").roles("USER");
+      .withUser("user").password("password").roles("USER").and()
+      .withUser("admin").password("admin").roles("ADMIN", "USER");
+    auth
+      .jdbcAuthentication()
+      .dataSource(dataSource)
+      .usersByUsernameQuery(
+        "select username,password, enabled from users where username=?")
+      .authoritiesByUsernameQuery(
+        "select username, role from user_roles where username=?");
   }
 }

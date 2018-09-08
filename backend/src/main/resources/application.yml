@@ -1,14 +1,32 @@
+spring.profiles.active: production
+
 spring.devtools.livereload.enabled: false
+
+spring.session.store-type: redis # Session store type.
 
 ---
 spring:
-    profiles: production
+  profiles: production
 
 # TODO: add the credentials to your production redis
 # preferably using environment variables
 
-# spring.profiles.active: redis
-#    redis:
-#      password:
-#      host:
-#      port:
+---
+spring:
+  profiles: development
+
+#debug: true
+
+
+---
+spring:
+  datasource:
+    url: jdbc:mysql://192.168.99.100:13306/test #?useSSL=true&characterEncoding=utf8
+    username: root
+    password: toor
+    driver-class-name: com.mysql.cj.jdbc.Driver #com.mysql.jdbc.Driver #com.mysql.cj.jdbc.Driver
+  redis:
+#    password:
+    host: 192.168.99.100
+    port: 6379
+    database: 0
